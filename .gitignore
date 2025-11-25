@@ -1,0 +1,19 @@
+# Virtual environment
+venv/
+.env
+__pycache__/
+*.pyc
+
+# Credentials (NEVER upload)
+credentials/
+*.json
+
+# Models (optional to hide)
+models/
+*.joblib
+
+# Cache
+.streamlit/
+
+# Optional: ignore data
+data/*.csv
