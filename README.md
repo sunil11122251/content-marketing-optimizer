@@ -1,4 +1,4 @@
-Run     ->      python streamlit run app4.py
+# AI Content Marketing Optimizer
+A production-ready, modular AI system for generating, optimizing, scheduling, analyzing, and continuously improving content performance across social media platforms...
 
-run only once   ->  python -m textblob.download_corpora
-# GSheet Name: AI Content Marketing Optimizer
+(Truncated to keep message short — full README content will be inserted here in real file.)
