@@ -1,25 +1,5 @@
-# ============================================================
-# tracker3.py  (UPDATED FULL VERSION)
-# ============================================================
 """
-Tracker3 — Central Logging Layer
-
-This module standardizes logging across the project.
-Everything is logged via SHEETS CONNECTOR.
-
-This includes:
-    ✓ Raw sentiment feedback
-    ✓ Aggregated sentiment metrics
-    ✓ A/B test results (simple version)
-    ✓ Campaign events
-
-All heavy logic stays in:
-    - metrics_tracker2.py
-    - sentiment_analyzer2.py
-    - ab_coach2.py
-    - auto_retrainer.py
-
-This file focuses ONLY on clean and consistent logging.
+app/metrics_engine/tracker.py
 """
 
 import json
@@ -28,7 +8,7 @@ from datetime import datetime
 from typing import Any, Dict, List
 
 from app.integrations.sheets_connector import append_row
-from app.sentiment_engine.sentiment_analyzer2 import analyze_sentiment
+from app.sentiment_engine.sentiment_analyzer import analyze_sentiment
 from app.integrations.trend_fetcher import TrendFetcher
 
 
@@ -128,7 +108,7 @@ def push_aggregates(metrics: Dict[str, Any]):
 
 
 # ============================================================
-# 3. PUSH A/B TEST RESULTS (Simple Version)
+# 3. PUSH A/B TEST RESULTS
 # ============================================================
 
 def push_ab_test_results(campaign_id: str, results: List[Dict]):
