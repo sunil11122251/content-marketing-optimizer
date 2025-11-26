@@ -1,22 +1,6 @@
 """
-UPDATED run.py
---------------
+run.py
 This script runs the FULL end-to-end AI Content Marketing Optimizer:
-
-Pipeline Steps:
----------------
-1. Generate content variations  (content_generator3)
-2. Trend optimization           (trend_based_optimizer3)
-3. Sentiment analysis           (sentiment_analyzer2)
-4. A/B Comparison (simple) OR Full posting  (ABCoach)
-5. Log raw feedback + aggregates (tracker3)
-6. Push metrics to Google Sheets (metrics_tracker2)
-7. Auto-train ML model           (auto_retrainer)
-8. Slack report summary          (slack_notifier2)
-
-Run:
-----
-python run.py
 """
 
 import logging
@@ -26,17 +10,17 @@ import pandas as pd
 # IMPORT UPDATED MODULES
 # ---------------------------
 
-from app.content_engine.content_generator3 import generate_final_variations
-from app.sentiment_engine.sentiment_analyzer2 import analyze_sentiment
-from app.content_engine.trend_based_optimizer3 import TrendBasedOptimizer
-from app.metrics_engine.tracker3 import push_raw_feedback, push_aggregates, log_campaign_event
-from app.metrics_engine.metrics_tracker2 import push_daily_metrics
-from app.metrics_engine.metrics_hub2 import record_campaign_metrics
+from app.content_engine.content_generator import generate_final_variations
+from app.sentiment_engine.sentiment_analyzer import analyze_sentiment
+from app.content_engine.trend_based_optimizer import TrendBasedOptimizer
+from app.metrics_engine.tracker import push_raw_feedback, push_aggregates, log_campaign_event
+from app.metrics_engine.metrics_tracker import push_daily_metrics
+from app.metrics_engine.metrics_hub import record_campaign_metrics
 
-from app.ab_testing.ab_coach2 import ABCoach
+from app.ab_testing.ab_coach import ABCoach
 from app.ml_engine.auto_retrainer import AutoRetrainer
 
-from app.integrations.slack_notifier3 import SlackNotifier
+from app.integrations.slack_notifier import SlackNotifier
 
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -115,7 +99,7 @@ def run_pipeline():
     })
 
     # --------------------------------------
-    # STEP 4: A/B TEST (SIMPLE VERSION)
+    # STEP 4: A/B TEST
     # --------------------------------------
     logger.info("\n[4] Running A/B Comparison (Simple)...")
     coach = ABCoach()
