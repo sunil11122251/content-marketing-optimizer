@@ -1,6 +1,6 @@
-# ============================================================
-# content_generator3.py (UPDATED FULL VERSION)
-# ============================================================
+"""
+app/content_engine/content_generator.py
+"""
 
 import os
 import logging
@@ -25,11 +25,11 @@ except Exception:
     GEMINI_AVAILABLE = False
 
 # Dynamic prompt builder
-from .dynamic_prompt2 import generate_engaging_prompt
+from .dynamic_prompt import generate_engaging_prompt
 
 # Trend optimizer (real-time trends)
 from app.integrations.trend_fetcher import TrendFetcher
-from app.content_engine.trend_based_optimizer3 import TrendBasedOptimizer
+from app.content_engine.trend_based_optimizer import TrendBasedOptimizer
 
 # Sheets logging
 from app.integrations.sheets_connector import append_row
@@ -222,7 +222,7 @@ def optimize_with_engagement(candidates: List[Dict], past_metrics: Optional[Dict
 
 
 # ============================================================
-# FINAL PIPELINE — FULLY UPDATED
+# PIPELINE
 # ============================================================
 
 def generate_final_variations(
@@ -240,7 +240,7 @@ def generate_final_variations(
     if isinstance(keywords, str):
         keywords = keywords.split(",")
 
-    # NEW: Retrieve REAL trending keywords
+    # Retrieve REAL trending keywords
     tf = TrendFetcher()
     real_trends = tf.fetch_google_global_trends()
 
@@ -307,24 +307,3 @@ def generate_final_variations(
             pass
 
     return results
-
-
-# ============================================================
-# Test Run
-# ============================================================
-
-if __name__ == "__main__":
-    out = generate_final_variations(
-        "AI in Marketing",
-        "Twitter",
-        ["#AI", "#Marketing"],
-        "marketers",
-        "positive",
-        n=2
-    )
-
-    for i, r in enumerate(out, 1):
-        print(f"\nVariant {i}:")
-        print("Text:", r["text"])
-        print("Quality:", r["quality"])
-        print("Meta:", r["meta"])
