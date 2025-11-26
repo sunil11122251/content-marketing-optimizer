@@ -4,6 +4,9 @@ venv/
 __pycache__/
 *.pyc
 
+data/
+*.CSV
+
 # Credentials (NEVER upload)
 credentials/
 *.json
