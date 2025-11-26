@@ -1,4 +1,6 @@
-# trend_based_optimizer3.py (UPDATED FULL VERSION)
+"""
+app/content_engine/trend_based_optimizer.py
+"""
 import logging
 from datetime import datetime
 
@@ -75,7 +77,7 @@ class TrendBasedOptimizer:
                 rising_phrases.extend(rising)
 
         # --------------------------------------------------------
-        # Apply optimization (Simple, explainable for students)
+        # Apply optimization
         # --------------------------------------------------------
         optimized_text = original_text
 
@@ -122,18 +124,3 @@ class TrendBasedOptimizer:
         Simple wrapper for pipeline usage.
         """
         return self.optimize_content(text)
-
-
-# ----------------------------------------------------------------------
-# Developer Test (Keep for your students)
-# ----------------------------------------------------------------------
-if __name__ == "__main__":
-    sample_text = "AI marketing automation tool to boost business growth"
-
-    optimizer = TrendBasedOptimizer()
-    output = optimizer.run(sample_text)
-
-    print("Original:", output["original"])
-    print("\nOptimized:", output["optimized"])
-    print("\nTrend Score:", output["trend_score"])
-    print("\nInsights:", output["insights"])
