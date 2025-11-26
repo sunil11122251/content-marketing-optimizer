@@ -1,3 +1,7 @@
+"""
+app/ml_engine/auto_retrainer.py
+"""
+
 import os
 import time
 import joblib
@@ -9,12 +13,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # Integrations
 from app.integrations.sheets_connector import read_rows, append_row
 from app.integrations.social_ingestor import SocialIngestor
-from app.integrations.slack_notifier3 import SlackNotifier
+from app.integrations.slack_notifier import SlackNotifier
 
 # AI Components
-from app.sentiment_engine.sentiment_analyzer2 import analyze_sentiment
+from app.sentiment_engine.sentiment_analyzer import analyze_sentiment
 from app.integrations.trend_fetcher import TrendFetcher
-from app.ml_engine.train_model3 import train  # Your existing training function
+from app.ml_engine.train_model import train  
 
 
 logger = logging.getLogger(__name__)
@@ -211,7 +215,7 @@ class AutoRetrainer:
 
 
     # --------------------------------------------------------------
-    # Simple run() wrapper for the pipeline
+    # run() wrapper for the pipeline
     # --------------------------------------------------------------
     def run(self):
         """
