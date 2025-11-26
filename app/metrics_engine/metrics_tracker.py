@@ -1,18 +1,5 @@
-# metrics_tracker2.py (UPDATED)
 """
-Updated metrics_tracker2.py
-
-Integrations:
-- integrations.social_ingestor.SocialIngestor  -> fetch live post metrics (likes, replies, shares)
-- integrations.trend_fetcher.TrendFetcher      -> trend scores for text
-- sentiment_analyzer2.analyze_sentiment       -> sentiment scoring for text/comments
-- integrations.sheets_connector.append_row     -> unified Google Sheets writes
-
-Features:
-- Compute CTR, engagement rate, conversion rate, sentiment distribution, avg trend score, toxicity (if present)
-- Optionally aggregate live metrics given a list of post IDs
-- Robust sheet write with retries and graceful fallback
-- Student-friendly logging and clear structure
+app/metrics_engine/metrics_tracker.py
 """
 
 import os
@@ -26,7 +13,7 @@ import pandas as pd
 from app.integrations.social_ingestor import SocialIngestor
 from app.integrations.trend_fetcher import TrendFetcher
 from app.integrations.sheets_connector import append_row, read_rows
-from app.sentiment_engine.sentiment_analyzer2 import analyze_sentiment
+from app.sentiment_engine.sentiment_analyzer import analyze_sentiment
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
