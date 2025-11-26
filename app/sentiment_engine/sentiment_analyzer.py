@@ -1,15 +1,5 @@
-# sentiment_analyzer2.py (UPDATED FULL VERSION)
 """
-Advanced sentiment_analyzer2.py
-
-Upgraded with:
----------------------------------
-1. Real social comment ingestion via SocialIngestor
-2. Trend awareness using TrendFetcher
-3. Google Sheets logging for sentiment results
-4. Unified output for pipeline integration (generator → optimizer → metrics)
-5. Strong fallbacks (HF → TextBlob)
-6. Student-friendly readable structure
+app/sentiment_engine/sentiment_analyzer.py
 """
 
 import logging
@@ -91,7 +81,7 @@ def simplify_emotion_output(raw_output: List[Dict]) -> Dict:
 
 
 # ------------------------------------------------------
-# NEW FEATURE: Analyze sentiment of *live social comments*
+# FEATURE: Analyze sentiment of *live social comments*
 # ------------------------------------------------------
 def analyze_post_comments(post_id: str) -> Dict:
     """
@@ -259,18 +249,3 @@ def analyze_from_dataframe(df, text_column: str):
     df["trend_score"] = [r["trend_score"] for r in out]
 
     return df
-
-
-# ------------------------------------------------------
-# Test Run
-# ------------------------------------------------------
-if __name__ == "__main__":
-    sample = [
-        "I absolutely love this AI tool!",
-        "This is frustrating and disappointing.",
-        "Not sure if this is good or bad 😂"
-    ]
-
-    out = analyze_sentiment(sample)
-    for r in out:
-        print(r)
