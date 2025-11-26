@@ -1,25 +1,22 @@
 """
-Streamlit App (app4.py)
+Streamlit App (streamlit_app.py)
 
 Run:
-    streamlit run app4.py
+    streamlit run streamlit_app.py
 """
-
 import streamlit as st
 import pandas as pd
-import os
 from datetime import datetime
 
 
-from app.content_engine.content_generator3 import generate_final_variations
-from app.content_engine.trend_based_optimizer3 import TrendBasedOptimizer
-from app.sentiment_engine.sentiment_analyzer2 import analyze_sentiment
-from app.ab_testing.ab_coach2 import ABCoach
-from app.metrics_engine.metrics_tracker2 import push_daily_metrics
-from app.metrics_engine.metrics_hub2 import record_campaign_metrics, fetch_recent_metrics
-from app.ml_engine.train_model3 import train
+from app.content_engine.content_generator import generate_final_variations
+from app.sentiment_engine.sentiment_analyzer import analyze_sentiment
+from app.ab_testing.ab_coach import ABCoach
+from app.metrics_engine.metrics_tracker import push_daily_metrics
+from app.metrics_engine.metrics_hub import record_campaign_metrics, fetch_recent_metrics
+from app.ml_engine.train_model import train
 from app.ml_engine.auto_retrainer import AutoRetrainer
-from app.integrations.slack_notifier3 import SlackNotifier
+from app.integrations.slack_notifier import SlackNotifier
 
 
 # Safe defaults UI
@@ -187,7 +184,7 @@ with tabs[1]:
         st.write("Generated Variants Found:")
 
         if st.button("Analyze All Variants"):
-            st.session_state["sentiment_results"] = []  # reset previous results
+            st.session_state["sentiment_results"] = []  
 
             for i, v in enumerate(generated_variants):
                 variant_text = v["text"]
@@ -238,7 +235,7 @@ with tabs[1]:
 
 
 # ----------------------------
-# A/B Test Tab (Simple)
+# A/B Test Tab
 # ----------------------------
 with tabs[2]:
     st.header("A/B Comparison")
@@ -386,7 +383,7 @@ with tabs[3]:
     if train is None:
         st.info("Train function not found.")
     else:
-        if st.button("Train model now (run train_model3.py)"):
+        if st.button("Train model now (run train_model.py)"):
             with st.spinner("Training (this may take a while)..."):
                 try:
                     stats = train()
