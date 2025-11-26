@@ -1,16 +1,5 @@
 """
-Improved dynamic_prompt3.py
-
-Upgrades added:
-- Platform-specific content rules (Twitter, LinkedIn, Instagram, YouTube, Facebook)
-- Tone variations (positive, emotional, educational, humorous, persuasive)
-- CTA (Call-To-Action) injection system
-- Trend keyword integration inside the prompt
-- Clear, teacher-friendly examples for students
-- Highly modular prompt builder so anyone can extend it easily
-
-This version helps create highly personalized, platform-aware, trend-aware
-prompts for Generative AI content generation.
+app/content_engine/dynamic_prompt.py
 """
 
 from typing import List
@@ -159,22 +148,3 @@ Call to Action:
 Now generate the final post:
 """
     return prompt.strip()
-
-
-# ----------------------------------------
-# 5. TEST RUN
-# ----------------------------------------
-
-if __name__ == "__main__":
-    prompt = generate_engaging_prompt(
-        topic="AI in Digital Marketing",
-        platform="Twitter",
-        keywords=["#AI", "#Marketing"],
-        audience="Marketers & Founders",
-        tone="persuasive",
-        trends=["#GenAI", "#Automation"],
-        word_count=40
-    )
-
-    print("\n--- GENERATED PROMPT ---\n")
-    print(prompt)
