@@ -307,7 +307,7 @@ Complete UI for interacting with all modules:
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/Meena200617/AI-Based-Automated-Content-Marketing-Optimizer
+git clone https://github.com/sunil11122251/content-marketing-optimizer.git
 cd AI-Content-Marketing-Optimizer
 ```
 
