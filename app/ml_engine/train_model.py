@@ -1,55 +1,5 @@
 """
-train_model3.py — UPDATED & INTEGRATED VERSION
-----------------------------------------------
-
-Purpose:
---------
-Trains the marketing performance prediction model used by:
-- A/B Coach (probability scoring)
-- AutoRetrainer (continuous learning)
-- Campaign Optimization
-
-Integrated With:
-----------------
-✓ metrics_hub2.get_ml_training_data()   → ML dataset builder  
-✓ sentiment_analyzer2 / trend_fetcher   → Already enriched in dataset  
-✓ Google Sheets tracking (indirectly)  
-✓ AutoRetrainer (uses train_model function)
-
-Model:
-------
-RandomForestClassifier + GridSearchCV + SMOTE
-Outputs:
---------
-• models/predictor_TIMESTAMP.joblib
-• models/predictor.joblib (latest)
-"""
-
-"""
-train_model3.py — UPDATED & INTEGRATED VERSION
-----------------------------------------------
-
-Purpose:
---------
-Trains the marketing performance prediction model used by:
-- A/B Coach (probability scoring)
-- AutoRetrainer (continuous learning)
-- Campaign Optimization
-
-Integrated With:
-----------------
-✓ metrics_hub2.get_ml_training_data()   → ML dataset builder  
-✓ sentiment_analyzer2 / trend_fetcher   → Already enriched in dataset  
-✓ Google Sheets tracking (indirectly)  
-✓ AutoRetrainer (uses train_model function)
-
-Model:
-------
-RandomForestClassifier + GridSearchCV + SMOTE
-Outputs:
---------
-• models/predictor_TIMESTAMP.joblib
-• models/predictor.joblib (latest)
+app/ml_engine/train_model.py
 """
 
 import os
@@ -68,12 +18,10 @@ from sklearn.metrics import (
     recall_score,
     confusion_matrix,
 )
-
-from collections import Counter
 from imblearn.over_sampling import SMOTE
 
-# Updated import — now using metrics_hub2
-from app.metrics_engine.metrics_hub2 import get_ml_training_data
+# import — now using metrics_hub
+from app.metrics_engine.metrics_hub import get_ml_training_data
 
 
 # ================================================================
@@ -104,13 +52,20 @@ LATEST_MODEL_PATH = os.path.join(MODEL_DIR, "predictor.joblib")
 
 def compute_success_label(df: pd.DataFrame) -> pd.DataFrame:
     """
-    success = 1 when conversion_rate > threshold (2%)
+    success = 1 when conversion_rate > threshold
+    threshold = 2%
+
+    Conversion rate is derived as:
+    conversions / max(impressions, 1)
+
+    If impressions not provided, fallback to existing dataframe logic.
     """
     df = df.copy()
 
     if "impressions" in df.columns:
         df["conversion_rate"] = df["conversions"] / df["impressions"].replace(0, np.nan)
     else:
+        # fallback: old method
         df["conversion_rate"] = df["conversions"] / df["ctr"].replace(0, np.nan)
 
     df["conversion_rate"] = df["conversion_rate"].fillna(0)
@@ -124,6 +79,12 @@ def compute_success_label(df: pd.DataFrame) -> pd.DataFrame:
 # ================================================================
 
 def feature_engineer(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Create robust normalized features for the RF classifier.
+    
+    Expected columns from metrics_hub2:
+        ctr, sentiment, polarity, conversions, trend_score
+    """
     df = df.copy()
 
     df["ctr_norm"] = df["ctr"].clip(0, 1)
@@ -152,7 +113,8 @@ def train():
 
     if df.empty:
         raise ValueError(
-            "Training dataset is empty. Run campaigns and collect A/B metrics first."
+            "Training dataset is empty. "
+            "Run campaigns and collect A/B metrics first."
         )
 
     # Step 1 — Labeling
@@ -170,18 +132,9 @@ def train():
         X, y, test_size=0.25, random_state=42
     )
 
-    # Step 4 — SMOTE Balancing with AUTO k_neighbors
+    # Step 4 — SMOTE Balancing
     logger.info("Balancing classes with SMOTE...")
-
-    class_counts = Counter(y_train)
-    minority_class_count = min(class_counts.values())
-
-    # SMOTE requires k_neighbors < minority samples
-    k_neighbors = max(1, min(5, minority_class_count - 1))
-
-    logger.info(f"Using SMOTE(k_neighbors={k_neighbors})")
-
-    sm = SMOTE(random_state=42, k_neighbors=k_neighbors)
+    sm = SMOTE(random_state=42)
     X_train_balanced, y_train_balanced = sm.fit_resample(X_train, y_train)
 
     logger.info("Balanced label counts:\n" + str(y_train_balanced.value_counts()))
@@ -193,7 +146,7 @@ def train():
         max_depth=None
     )
 
-    # Step 6 — GridSearchCV
+    # Step 6 — GridSearch Hyperparameter Tuning
     param_grid = {
         "n_estimators": [100, 150, 200],
         "max_depth": [None, 8, 14],
@@ -260,4 +213,3 @@ if __name__ == "__main__":
     results = train()
     print("\nTraining Results:")
     print(results)
-
