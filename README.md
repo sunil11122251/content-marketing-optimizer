@@ -430,7 +430,7 @@ The **AutoRetrainer** also saves:
 - **Charan Tej** — Lead Developer, System Architect & Mentor
 
 ### 🎓 Student Contributors  
-- **Student Name ** — **Sannapaneni Sunil**  
+- **Student Name** — **Sannapaneni Sunil**  
 ---
 
 ## 🤝 Contributing
